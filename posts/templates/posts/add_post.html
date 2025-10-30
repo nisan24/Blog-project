@@ -1,0 +1,85 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
+
+<style>
+  .form-card {
+    max-width: 600px;
+    margin: 50px auto;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease-in-out;
+  }
+  .form-card:hover {
+    transform: translateY(-3px);
+  }
+  .form-card h2 {
+    font-weight: 700;
+    color: #007bff;
+  }
+  .form-label {
+    font-weight: 500;
+    color: #333;
+    margin-top: 10px;
+  }
+  .form-control {
+    border-radius: 10px;
+    box-shadow: none !important;
+    border: 1px solid #ccc;
+  }
+  .btn-submit {
+    width: 100%;
+    padding: 10px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+</style>
+
+<div class="container">
+  <div class="card form-card p-4">
+    
+    {% if type == "edit" %}
+    <h2 class="text-center mb-4">📝 Update your Post</h2>
+    {% else %}
+    <h2 class="text-center mb-4">📝 Add a New Post</h2>
+
+    {% endif %}
+      
+
+    <form action="" method="post">
+      {% csrf_token %}
+      <!-- {{form | crispy}} -->
+
+      {% for i in form %}
+      <div class="mb-3">
+        <label for="{{ i.id_for_label }}" class="form-label"
+          >{{ i.label }}</label
+        >
+        {{ i }}
+        <small class="text-danger">{{ i.errors }}</small>
+      </div>
+      {% endfor %} {% if type == "edit" %}
+      <button type="submit" class="btn btn-primary btn-submit mt-3">
+        Update Post
+      </button>
+      {% else %}
+      <button type="submit" class="btn btn-primary btn-submit mt-3">
+        Submit Post
+      </button>
+      {% endif %}
+
+      <p class="text-center mt-4 mb-0">
+        {% if type == 'edit' %}
+        <a
+          href="{% url 'profile' %}"
+          class="text-decoration-none fw-semibold text-info"
+        >
+          ← Back to Profile
+        </a>
+
+        {% endif %}
+      </p>
+    </form>
+  </div>
+</div>
+
+{% endblock content %}
